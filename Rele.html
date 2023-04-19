@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Управление реле</title>
+</head>
+<body>
+    <h1>Управление реле</h1>
+    <button id="toggle-relay" style="width: 128px; height: 128px; border: none; background-color: white;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1/1228.png" style="width: 100%; height: 100%; object-fit: fill;">
+    </button>
+    <div id="result"></div>
+    <script>
+        // Обработчик нажатия на кнопку "Включить/выключить реле"
+        document.getElementById("toggle-relay").addEventListener("click", function (e) {
+            var xhr = new XMLHttpRequest(); // Создаем объект XMLHttpRequest
+            xhr.open("POST", "/submit"); // Открываем соединение
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) { // Проверяем статус запроса
+                    if (xhr.status === 200) { // Если запрос успешен
+                        document.getElementById("result").innerHTML = xhr.responseText; // Выводим результат на страницу
+                    } else { // Если запрос не успешен
+                        alert("Ошибка выполнения запроса"); // Выводим сообщение об ошибке (xhr.status)
+                    }
+                }
+            };
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // Устанавливаем заголовок Content-Type
+            xhr.send("toggle=1"); // Отправляем запрос на сервер
+        });
+    </script>
+</body>
+</html>
